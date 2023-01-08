@@ -1,7 +1,7 @@
 package com.example.waifurateapp.data
 
+import com.example.waifurateapp.data.api.WaifuList
 import retrofit2.Response
-import retrofit2.Retrofit
 
 class WaifuRepository {
 

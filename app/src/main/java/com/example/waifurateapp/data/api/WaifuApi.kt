@@ -1,10 +1,10 @@
-package com.example.waifurateapp.data
+package com.example.waifurateapp.data.api
 
 import retrofit2.Response
 import retrofit2.http.GET
 
 interface WaifuApi {
 
-    @GET("search/?included_tags=ass")
+    @GET("https://api.waifu.im/search/")
     suspend fun getImage(): Response<WaifuList>
 }
