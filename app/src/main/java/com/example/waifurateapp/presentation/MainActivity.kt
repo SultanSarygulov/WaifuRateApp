@@ -1,6 +1,7 @@
 package com.example.waifurateapp.presentation
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,7 +23,7 @@ import com.example.waifurateapp.R
 import com.example.waifurateapp.data.WaifuRepository
 import com.example.waifurateapp.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Listener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var mMainViewModel: MainViewModel
@@ -34,14 +35,17 @@ class MainActivity : AppCompatActivity() {
 
         setViewModel()
 
-        mMainViewModel.getImage()
         loadImage()
 
         binding.leftButton.setOnClickListener {
+            mMainViewModel.getImage()
+            Log.d("Sula", "leftButton")
             loadImage()
         }
 
         binding.rightButton.setOnClickListener {
+            mMainViewModel.getImage()
+            Log.d("Sula", "rightButton")
             loadImage()
         }
 
@@ -49,13 +53,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setViewModel() {
         val repository = WaifuRepository()
-        val mainViewModelFactory = ViewModelFactory(repository)
+        val mainViewModelFactory = ViewModelFactory(repository, this)
         mMainViewModel = ViewModelProvider(this, mainViewModelFactory)[MainViewModel::class.java]
     }
 
     private fun loadImage() {
         Log.d("Sula", "Loading")
-        mMainViewModel.getImage()
         mMainViewModel.myResponse.observe(this,  Observer{waifu ->
 
             // Create a progressBar drawable
@@ -64,13 +67,24 @@ class MainActivity : AppCompatActivity() {
             circularProgressDrawable.centerRadius = 130f
             circularProgressDrawable.start()
 
+            Log.d("Sula", "loadImage: ${waifu}")
+
             Glide
                 .with(binding.root)
-                .load(waifu.url)
+                .load(waifu)
                 .placeholder(circularProgressDrawable)
                 .into(binding.image)
 
             })
+    }
+
+    override fun changeColor() {
+        binding.noWifiImage.isGone = true
+    }
+
+    override fun loadErrorImage() {
+        binding.noWifiImage.isVisible = true
+        Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
     }
 
 

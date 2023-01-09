@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/NeobisProjects/WaifuRateApp/app/src/main/res/drawable/ic_no_wifi.xml" value="0.115" />
         <entry key="..\:/NeobisProjects/WaifuRateApp/app/src/main/res/drawable/loading_icon.xml" value="0.115" />
         <entry key="..\:/NeobisProjects/WaifuRateApp/app/src/main/res/layout/activity_main.xml" value="0.17074275362318841" />
       </map>
