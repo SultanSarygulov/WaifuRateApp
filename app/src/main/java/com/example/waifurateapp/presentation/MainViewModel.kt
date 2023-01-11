@@ -4,12 +4,17 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.waifurateapp.data.api.Waifu
-import com.example.waifurateapp.data.WaifuRepository
+import com.example.waifurateapp.data.WaifuRepositoryImpl
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class MainViewModel(private val repository: WaifuRepository, private val listener: Listener): ViewModel() {
+@HiltViewModel
+class MainViewModel
+@Inject
+constructor(private val repository: WaifuRepositoryImpl/*, private val listener: WaifuListener*/): ViewModel() {
 
     val myResponse: MutableLiveData<String> = MutableLiveData()
 
@@ -20,14 +25,14 @@ class MainViewModel(private val repository: WaifuRepository, private val listene
                 val response = repository.getImage()
                 myResponse.value = response.body()?.images?.get(0)?.url
 
-                listener.changeColor()
+//                listener.changeColor()
 
             } catch (e: HttpException) {
 
                 Log.d("Sula", "getImage HttpException: $e")
             } catch (e: Throwable) {
 
-                listener.loadErrorImage()
+//                listener.loadErrorImage()
             }
 
         }

@@ -1,32 +1,25 @@
 package com.example.waifurateapp.presentation
 
-import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.Drawable
+import android.location.GnssAntennaInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
-import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
-import com.example.waifurateapp.R
-import com.example.waifurateapp.data.WaifuRepository
 import com.example.waifurateapp.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), Listener {
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var mMainViewModel: MainViewModel
+    private val mMainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +45,8 @@ class MainActivity : AppCompatActivity(), Listener {
     }
 
     private fun setViewModel() {
-        val repository = WaifuRepository()
-        val mainViewModelFactory = ViewModelFactory(repository, this)
-        mMainViewModel = ViewModelProvider(this, mainViewModelFactory)[MainViewModel::class.java]
+//        val repository = WaifuRepositoryImpl()
+
     }
 
     private fun loadImage() {
@@ -78,13 +70,15 @@ class MainActivity : AppCompatActivity(), Listener {
             })
     }
 
-    override fun changeColor() {
-        binding.noWifiImage.isGone = true
-    }
 
-    override fun loadErrorImage() {
-        binding.noWifiImage.isVisible = true
-        Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+    inner class ListenersImpl(): WaifuListener{
+        override fun changeColor() {
+            binding.noWifiImage.isGone = true
+        }
+
+        override fun loadErrorImage() {
+            binding.noWifiImage.isVisible = true
+        }
     }
 
 

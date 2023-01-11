@@ -1,6 +1,8 @@
 package com.example.waifurateapp.presentation
 
-interface Listener {
+import javax.inject.Inject
+
+interface WaifuListener {
 
     fun changeColor()
 
